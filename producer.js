@@ -1,9 +1,16 @@
-'use strict';
-
 const amqp = require('amqplib');
 const config = require('./config');
 
 let channel = null;
+
+process.on('exit', (code) => {
+    if (channel) {
+        channel.close();
+        console.log('Closing RMQ channel!');
+    }
+
+    console.error(code);
+});
 
 const exitQueue = (err) => {
     console.error(err);
@@ -27,12 +34,3 @@ const publish = async () => {
 };
 
 publish();
-
-process.on('exit', (code) => {
-    if (channel) {
-        channel.close();
-        console.log('Closing RMQ channel!');
-    }
-
-    console.error(code);
-});

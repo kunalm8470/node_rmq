@@ -1,19 +1,28 @@
-'use strict';
-
 const amqp = require('amqplib');
 const config = require('./config');
-
 let channel = null;
+
+process.on('exit', (code) => {
+    if (channel) {
+        channel.close();
+        console.log('Closing RMQ channel!');
+    }
+
+    console.error(code);
+});
+
 const exitQueue = (err) => {
     console.error(err);
     process.exit(1);
 };
 
 const onMessageRecieved = (message) => {
-    if (message && message.content) {
-        const messageContent = message.content.toString() || '';
-        console.log(messageContent);
+    if (!message || !message.content) {
+        return;
     }
+
+    const messageContent = message.content.toString() || '';
+    console.log(messageContent);
 };
 
 const consume = async () => {
@@ -33,12 +42,3 @@ const consume = async () => {
 };
 
 consume();
-
-process.on('exit', (code) => {
-    if (channel) {
-        channel.close();
-        console.log('Closing RMQ channel!');
-    }
-
-    console.error(code);
-});
