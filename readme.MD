@@ -1,15 +1,16 @@
-```
-Pre-requisites:
+**Pre-requisites**
 
-Downloading RabbitMQ Docker Container:
+```
+# Downloading RabbitMQ Docker Container
 docker pull rabbitmq:3-management
 
-Running RabbitMQ Docker Container:
+# Running RabbitMQ Docker Container
 docker run -d -p 15672:15672 -p 5672:5672 --name rmq
 ```
 
-* ### RabbitMQ Direct exchange
 ___
+
+* ### RabbitMQ Direct exchange
 
 ![Direct Exchange](./direct_exchange.png)
 
